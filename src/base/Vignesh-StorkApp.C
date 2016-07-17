@@ -1,0 +1,55 @@
+#include "Vignesh-StorkApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "ModulesApp.h"
+#include "MooseSyntax.h"
+
+template<>
+InputParameters validParams<Vignesh-StorkApp>()
+{
+  InputParameters params = validParams<MooseApp>();
+
+  params.set<bool>("use_legacy_uo_initialization") = false;
+  params.set<bool>("use_legacy_uo_aux_computation") = false;
+  params.set<bool>("use_legacy_output_syntax") = false;
+
+  return params;
+}
+
+Vignesh-StorkApp::Vignesh-StorkApp(InputParameters parameters) :
+    MooseApp(parameters)
+{
+  Moose::registerObjects(_factory);
+  ModulesApp::registerObjects(_factory);
+  Vignesh-StorkApp::registerObjects(_factory);
+
+  Moose::associateSyntax(_syntax, _action_factory);
+  ModulesApp::associateSyntax(_syntax, _action_factory);
+  Vignesh-StorkApp::associateSyntax(_syntax, _action_factory);
+}
+
+Vignesh-StorkApp::~Vignesh-StorkApp()
+{
+}
+
+// External entry point for dynamic application loading
+extern "C" void Vignesh-StorkApp__registerApps() { Vignesh-StorkApp::registerApps(); }
+void
+Vignesh-StorkApp::registerApps()
+{
+  registerApp(Vignesh-StorkApp);
+}
+
+// External entry point for dynamic object registration
+extern "C" void Vignesh-StorkApp__registerObjects(Factory & factory) { Vignesh-StorkApp::registerObjects(factory); }
+void
+Vignesh-StorkApp::registerObjects(Factory & factory)
+{
+}
+
+// External entry point for dynamic syntax association
+extern "C" void Vignesh-StorkApp__associateSyntax(Syntax & syntax, ActionFactory & action_factory) { Vignesh-StorkApp::associateSyntax(syntax, action_factory); }
+void
+Vignesh-StorkApp::associateSyntax(Syntax & /*syntax*/, ActionFactory & /*action_factory*/)
+{
+}
